@@ -4,6 +4,7 @@ using System.Collections;
 public class KillPlayer : MonoBehaviour {
 
 	public LevelManager levelManager;
+    public Canvas UI;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +20,7 @@ public class KillPlayer : MonoBehaviour {
 
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.name == "Player") {
+            UI.GetComponent<ScoreController>().resetScore();
 			levelManager.RespawnPlayer ();
 		}
 	}

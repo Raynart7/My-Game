@@ -16,6 +16,12 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
+		if (transform.position.x < -5)
+			transform.position = new Vector2(-5, transform.position.y);
+
+		if (transform.position.x > 7)
+			transform.position = new Vector2(7, transform.position.y);
+
 		//move right
 		if (Input.GetKey(KeyCode.D)) {
 			GetComponent<Rigidbody2D>().velocity = new Vector2(moveSpeed, GetComponent<Rigidbody2D>().velocity.y);

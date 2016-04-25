@@ -4,7 +4,8 @@ using System.Collections;
 
 public class ScoreController : MonoBehaviour {
 
-    private int score = 0;
+    public int score = 0;
+    public bool stop = false;
     private int last_reset_time = 0;
     public Text score_text;
 
@@ -22,6 +23,10 @@ public class ScoreController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         score_text.text = "Score: " + score.ToString();
-        score = (int) Time.realtimeSinceStartup - last_reset_time;
+
+        if (stop)
+            return;
+
+       score = (int) Time.realtimeSinceStartup - last_reset_time;
     }
 }

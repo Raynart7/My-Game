@@ -2,23 +2,26 @@
 using System.Collections;
 
 public class LevelManager : MonoBehaviour {
-
-	public GameObject currentCheckPoint;
 	private PlayerController player;
+	private ScoreController score;
 
-	//public GameObject deathParticle;
-	public float respawnDelay;
-	//public GameObject respawnParticle;
-	//public int pointPenaltyOnDeath;
+    private bool respawned = false;
+    public float respawnDelay;
 
 	// Use this for initialization
 	void Start () {
 		player = FindObjectOfType<PlayerController> ();
+        score = FindObjectOfType<ScoreController> ();
 	}
 
 	// Update is called once per frame
 	void Update () {
-
+        if (player.dead && !respawned)
+        {
+            score.stop = true;
+            respawned = true;
+            RespawnPlayer();
+        }
 	}
 
 	public void RespawnPlayer(){
@@ -26,17 +29,16 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public IEnumerator RespawnPlayerCo(){
-		//Instantiate (deathParticle, player.transform.position, player.transform.rotation);
-		player.enabled = false;
-		player.GetComponent<Renderer> ().enabled = false;
-
-		//ScoreManager.AddPoints (-pointPenaltyOnDeath);
-
 		Debug.Log ("Player Respawn");
 		yield return new WaitForSeconds (respawnDelay);
-		player.transform.position = currentCheckPoint.transform.position;
-		player.enabled = true;
-		player.GetComponent<Renderer> ().enabled = true;
-		//Instantiate (respawnParticle, currentCheckPoint.transform.position, currentCheckPoint.transform.rotation);
+
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("enemy");
+        foreach (GameObject go in gos)
+            Destroy(go);
+
+        player.respawn();
+        respawned = false;
+        score.stop = false;
+        score.resetScore();
 	}
 }

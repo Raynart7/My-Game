@@ -12,23 +12,19 @@ public class SpawnController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        rate = Random.Range(low_rate, high_rate);
+        StartCoroutine(SpawnStuff());
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        Debug.Log(rate);
-
-        if ((int) Time.realtimeSinceStartup % rate == 0 && spawnone)
+    IEnumerator SpawnStuff()
+    {
+        while (true)
         {
+            yield return new WaitForSeconds(Random.Range(low_rate, high_rate));
             Instantiate(spawn, transform.position, Quaternion.identity);
-            spawnone = false;
         }
-        else if ((int)Time.realtimeSinceStartup % rate != 0)
-        {
-            rate = Random.Range(low_rate, high_rate);
-            spawnone = true;
-        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 	}
 }

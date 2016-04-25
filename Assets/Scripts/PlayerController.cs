@@ -22,8 +22,9 @@ public class PlayerController : MonoBehaviour {
         if (transform.position.x > 6)
             transform.position = new Vector2(6, transform.position.y);
 
-        //move right
-        if (Input.GetKey(KeyCode.D)) {
+
+		//move right
+		if (Input.GetKey(KeyCode.D)) {
 			GetComponent<Rigidbody2D>().velocity = new Vector2(moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
 		}
 
